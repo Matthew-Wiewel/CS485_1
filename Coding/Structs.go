@@ -10,17 +10,21 @@ const (
 
 //methods to create each type of struct
 
-func makeB() (b B) {
-	return b
+func makeB() AutoStruct {
+	var b B
+	return &b
 }
-func makeC() (c C) {
-	return c
+func makeC() AutoStruct {
+	var c C
+	return &c
 }
-func makeD() (d D) {
-	return d
+func makeD() AutoStruct {
+	var d D
+	return &d
 }
-func makeE() (e E) {
-	return e
+func makeE() AutoStruct {
+	var e E
+	return &e
 }
 
 //note: there is no struct A due to some annoyance on my part at the linter
