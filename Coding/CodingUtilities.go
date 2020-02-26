@@ -95,3 +95,9 @@ func decodeByteSlice(slice []byte) (s []byte) {
 	s = slice //TODO: check if this gets intended result
 	return s
 }
+
+//helper to append a slice to another
+func appendEncodings(oldBuffer, sliceToAppend []byte) (newBuffer []byte) {
+	//TODO
+	return newBuffer
+}
