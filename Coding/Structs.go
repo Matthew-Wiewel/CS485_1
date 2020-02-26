@@ -49,11 +49,3 @@ type E struct {
 	Cstruct C
 	Dstruct D
 }
-
-//Encode method for struct B
-func (b *B) Encode() (encoding []byte) {
-	//TODO
-	//encoding = append(encoding, encodeTypeId(bID))
-	//encoding = append(encoding, encodeByte(b.B))
-	return encoding
-}
