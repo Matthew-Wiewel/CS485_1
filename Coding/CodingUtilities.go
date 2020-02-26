@@ -27,6 +27,15 @@ func Write(path string, t AutoStruct) (err error) {
 	return err
 }
 
+//AutofillTypeMap is a method to be called that can fill the typeMap with
+//the appropriate TypeId to function mapping at runtime
+func AutofillTypeMap() {
+	typeMap[bID] = makeB
+	typeMap[cID] = makeC
+	typeMap[dID] = makeD
+	typeMap[eID] = makeE
+}
+
 //typeFactor takes a TypeId, looks up the function set in the typeMap
 //and uses that function to create the appropriate result, assigning it
 //to AutoStruct 'a' and then returning 'a'
