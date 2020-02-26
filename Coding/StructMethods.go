@@ -2,9 +2,8 @@ package coding
 
 //Encode method for struct B
 func (caller *B) Encode() (encoding []byte) {
-	//TODO
-	//encoding = append(encoding, encodeTypeId(bID))
-	//encoding = append(encoding, encodeByte(b.B))
+	encoding = appendEncodings(encoding, encodeTypeId(bID))
+	encoding = appendEncodings(encoding, encodeByte(caller.ByteMember))
 	return encoding
 }
 
@@ -20,7 +19,8 @@ func (caller *B) getTypeId() TypeId {
 
 //Encode method for struct C
 func (caller *C) Encode() (encoding []byte) {
-	//TODO
+	encoding = appendEncodings(encoding, encodeTypeId(cID))
+	encoding = appendEncodings(encoding, encodeUint64(caller.Uint64Member))
 	return encoding
 }
 
@@ -36,7 +36,8 @@ func (caller *C) getTypeId() TypeId {
 
 //Encode method for struct D
 func (caller *D) Encode() (encoding []byte) {
-	//TODO
+	encoding = appendEncodings(encoding, encodeTypeId(dID))
+	encoding = appendEncodings(encoding, encodeByteSlice(caller.SliceMember))
 	return encoding
 }
 
@@ -52,7 +53,12 @@ func (caller *D) getTypeId() TypeId {
 
 //Encode method for struct E
 func (caller *E) Encode() (encoding []byte) {
-	//TODO
+	encoding = appendEncodings(encoding, encodeByte(caller.ByteMember))
+	encoding = appendEncodings(encoding, encodeUint64(caller.Uint64Member))
+	encoding = appendEncodings(encoding, encodeByteSlice(caller.SliceMember))
+	encoding = appendEncodings(encoding, caller.Bstruct.Encode())
+	encoding = appendEncodings(encoding, caller.Cstruct.Encode())
+	encoding = appendEncodings(encoding, caller.Dstruct.Encode())
 	return encoding
 }
 
