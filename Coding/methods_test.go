@@ -2,6 +2,7 @@ package coding
 
 import "testing"
 
+//method to test structs of type B return the bID
 func TestGetTypeIdB(t *testing.T) {
 	var bStruct B
 	if bStruct.getTypeId() != bID {
@@ -9,6 +10,7 @@ func TestGetTypeIdB(t *testing.T) {
 	}
 }
 
+//method to test strucsts of type C return the cID
 func TestGetTypeIdC(t *testing.T) {
 	var cStruct C
 	if cStruct.getTypeId() != cID {
@@ -16,6 +18,7 @@ func TestGetTypeIdC(t *testing.T) {
 	}
 }
 
+//method to test structs of type D return the dID
 func TestGetTypeIdD(t *testing.T) {
 	var dStruct D
 	if dStruct.getTypeId() != dID {
@@ -23,6 +26,7 @@ func TestGetTypeIdD(t *testing.T) {
 	}
 }
 
+//method to test structs of type E return the eID
 func TestGetTypeIdE(t *testing.T) {
 	var eStruct E
 	if eStruct.getTypeId() != eID {
