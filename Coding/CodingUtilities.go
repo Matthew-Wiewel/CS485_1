@@ -46,29 +46,32 @@ func typeFactory(id TypeId) (a AutoStruct) {
 }
 
 //helper function for encoding TypeIds
-func encodeTypeId(id TypeId) (buffer []byte) {
-	//TODO
-	//idCast := uint32(id)
-	//_ = binary.Write(buffer, binary.BigEndian, idCast)
+func encodeTypeId(id TypeId) []byte {
+	idCast := uint32(id) //cast the TypeId to uint32 to allow use of standard library
+	buffer := make([]byte, 4)
+	binary.BigEndian.PutUint32(buffer, idCast)
 	return buffer
 }
 
 //helper function for encoding bytes
-func encodeByte(b byte) (slice []byte) {
-	//TODO
-	return slice
+func encodeByte(b byte) []byte {
+	buffer := make([]byte, 1)
+	buffer[0] = b
+	return buffer
 }
 
 //helper function for encoding uint64s
-func encodeUint64(u uint64) (slice []byte) {
-	//TODO
-	return slice
+func encodeUint64(u uint64) []byte {
+	buffer := make([]byte, 8) //uint64 has 8 bytes, hence a byte slice of size 8
+	binary.BigEndian.PutUint64(buffer, u) //write u as bytes
+	return buffer
 }
 
 //helper function for encoding byte slices
-func encodeByteSlice(s []byte) (slice []byte) {
+func encodeByteSlice(s []byte) []byte {
+	buffer := make([]byte, len(s))
 	//TODO
-	return slice
+	return buffer
 }
 
 //helper function to decode a TypeId from a byte slice
