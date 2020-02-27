@@ -9,7 +9,8 @@ func (caller *B) Encode() (encoding []byte) {
 
 //Decode method for struct B
 func (caller *B) Decode(encoding []byte) {
-	//TODO
+	caller.ByteMember = decodeByte(encoding[4:]) //first 4 bytes are the TypeId
+	//so use what's left to get the byte
 }
 
 //getTypeId method for struct B
@@ -26,7 +27,7 @@ func (caller *C) Encode() (encoding []byte) {
 
 //Decode method for struct C
 func (caller *C) Decode(encoding []byte) {
-	//TODO
+	caller.Uint64Member = decodeUint64(encoding[4:])
 }
 
 //getTypeId method for struct C
@@ -43,7 +44,7 @@ func (caller *D) Encode() (encoding []byte) {
 
 //Decode method for struct D
 func (caller *D) Decode(encoding []byte) {
-	//TODO
+	caller.SliceMember = decodeByteSlice(encoding[4:])
 }
 
 //getTypeId method for struct D
@@ -65,6 +66,13 @@ func (caller *E) Encode() (encoding []byte) {
 //Decode method for struct E
 func (caller *E) Decode(encoding []byte) {
 	//TODO
+	caller.ByteMember = decodeByte(encoding[4:8])
+	caller.Uint64Member = decodeUint64(encoding[8:16])
+	caller.SliceMember = decodeByteSlice(encoding[16:]) //TODO, figure out cut-offs for the rest
+	//TODO with the cutoff
+	caller.Bstruct.Decode(encoding[:])
+	caller.Cstruct.Decode(encoding[:])
+	caller.Dstruct.Decode(encoding[:])
 }
 
 //getTypeId method for struct E
