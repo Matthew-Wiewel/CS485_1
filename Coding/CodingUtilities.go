@@ -75,7 +75,7 @@ func encodeByteSlice(s []byte) []byte {
 }
 
 //helper function to decode a TypeId from a byte slice
-func decodeType(slice []byte) (id TypeId) {
+func decodeTypeId(slice []byte) (id TypeId) {
 	var idAsUint32 = binary.BigEndian.Uint32(slice)
 	id = TypeId(idAsUint32)
 	return id
