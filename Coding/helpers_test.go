@@ -121,3 +121,16 @@ func TestEncodeTypeId_4(t *testing.T) {
 		t.Errorf("TypeId %d was decoded as %d", encode, decode)
 	}
 }
+
+func TestEncodeByteSlice_1(t *testing.T) {
+	encode := make([]byte, 8)
+	//TODO: make encode
+	encoding := encodeByteSlice(encode)
+	decode := decodeByteSlice(encoding)
+
+	if len(encode) != len(decode) {
+		t.Errorf("Lenght of byte slice {%d} was changed to {%d} when decoded", len(encode), len(decode))
+	}
+
+	//TODO: for-loop comparing elements
+}
