@@ -123,8 +123,13 @@ func TestEncodeTypeId_4(t *testing.T) {
 }
 
 func TestEncodeByteSlice_1(t *testing.T) {
-	encode := make([]byte, 8)
-	//TODO: make encode
+	sliceLength := 8
+	encode := make([]byte, sliceLength)
+	
+	for i := 0; i < sliceLength; i++ {
+		encode[i] = byte(i*i)
+	}
+
 	encoding := encodeByteSlice(encode)
 	decode := decodeByteSlice(encoding)
 
@@ -132,5 +137,79 @@ func TestEncodeByteSlice_1(t *testing.T) {
 		t.Errorf("Lenght of byte slice {%d} was changed to {%d} when decoded", len(encode), len(decode))
 	}
 
-	//TODO: for-loop comparing elements
+	for i := 0; i < sliceLength; i++ {
+		if encode[i] != decode[i] {
+			t.Errorf("Index %d of encoded and decoded byte slices is not equal\n" +
+		"encode[%d] = %d and decode[%d] = %d", i, i, int(encode[i]), i, int(decode[i]))
+		}
+	}
+}
+
+func TestEncodeByteSlice_2(t *testing.T) {
+	sliceLength := 13
+	encode := make([]byte, sliceLength)
+	
+	for i := 0; i < sliceLength; i++ {
+		encode[i] = 0xFF
+	}
+
+	encoding := encodeByteSlice(encode)
+	decode := decodeByteSlice(encoding)
+
+	if len(encode) != len(decode) {
+		t.Errorf("Lenght of byte slice {%d} was changed to {%d} when decoded", len(encode), len(decode))
+	}
+
+	for i := 0; i < sliceLength; i++ {
+		if encode[i] != decode[i] {
+			t.Errorf("Index %d of encoded and decoded byte slices is not equal\n" +
+		"encode[%d] = %d and decode[%d] = %d", i, i, int(encode[i]), i, int(decode[i]))
+		}
+	}
+}
+
+func TestEncodeByteSlice_3(t *testing.T) {
+	sliceLength := 5
+	encode := make([]byte, sliceLength)
+	
+	for i := 0; i < sliceLength; i++ {
+		encode[i] = 0
+	}
+
+	encoding := encodeByteSlice(encode)
+	decode := decodeByteSlice(encoding)
+
+	if len(encode) != len(decode) {
+		t.Errorf("Lenght of byte slice {%d} was changed to {%d} when decoded", len(encode), len(decode))
+	}
+
+	for i := 0; i < sliceLength; i++ {
+		if encode[i] != decode[i] {
+			t.Errorf("Index %d of encoded and decoded byte slices is not equal\n" +
+		"encode[%d] = %d and decode[%d] = %d", i, i, int(encode[i]), i, int(decode[i]))
+		}
+	}
+}
+
+func TestEncodeByteSlice_4(t *testing.T) {
+	sliceLength := 8
+	encode := make([]byte, sliceLength)
+	
+	for i := 0; i < sliceLength; i++ {
+		encode[i] = byte(i+i)
+	}
+
+	encoding := encodeByteSlice(encode)
+	decode := decodeByteSlice(encoding)
+
+	if len(encode) != len(decode) {
+		t.Errorf("Lenght of byte slice {%d} was changed to {%d} when decoded", len(encode), len(decode))
+	}
+
+	for i := 0; i < sliceLength; i++ {
+		if encode[i] != decode[i] {
+			t.Errorf("Index %d of encoded and decoded byte slices is not equal\n" +
+		"encode[%d] = %d and decode[%d] = %d", i, i, int(encode[i]), i, int(decode[i]))
+		}
+	}
 }
