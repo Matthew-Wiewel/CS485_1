@@ -69,8 +69,8 @@ func encodeUint64(u uint64) []byte {
 
 //helper function for encoding byte slices
 func encodeByteSlice(s []byte) []byte {
-	buffer := make([]byte, len(s))
-	//TODO
+	//buffer := make([]byte, len(s))
+	buffer := s
 	return buffer
 }
 
@@ -100,6 +100,7 @@ func decodeByteSlice(slice []byte) (s []byte) {
 }
 
 //helper to append a slice to another
+//TODO: make variadic
 func appendEncodings(oldBuffer, sliceToAppend []byte) (newBuffer []byte) {
 	//TODO
 	return newBuffer
