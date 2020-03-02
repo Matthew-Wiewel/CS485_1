@@ -2,7 +2,9 @@ package coding
 
 import (
 	"encoding/binary"
+	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 )
 
@@ -15,6 +17,12 @@ func SetType(id TypeId, f func() AutoStruct) {
 	typeMap[id] = f
 }
 
+func errorCheck(err error, message string) {
+	if err != nil {
+		fmt.Println(message)
+		log.Fatal(err)
+	}
+}
 //Read is a function to read in a byte stream and create the appropriate AutoStruct
 //TODO: see if erro os.Error will work on the linux
 func Read(path string) (AutoStruct, error) {
@@ -22,13 +30,21 @@ func Read(path string) (AutoStruct, error) {
 	file, err := os.Open(path)
 	defer file.Close()
 
-	//if there are issues, exit the method
-	if err != nil {
-		return nil, err
-	}
+	errorCheck(err, "Issue with opening file")
 
-	//read contents
-	var dataSlice []byte
+	//create slice with which to read the file
+	var fileInfo os.FileInfo
+	fileInfo, err = file.Stat()
+	errorCheck(err, "Issue getting Stat of file")
+	var dataSlice []byte = make([]byte, fileInfo.Size()) //only make it as big as necessary
+
+	//read the file into the dataSlice
+	var numRead int
+	numRead, err = file.Read(dataSlice)
+	errorCheck(err, "Issue with reading file.")
+	if numRead != int(fileInfo.Size()) {
+		fmt.Println("Read ", numRead, " bytes, not ", fileInfo.Size())
+	}
 
 	//decode the struct
 	typeOfStruct := decodeTypeId(dataSlice[:4])
