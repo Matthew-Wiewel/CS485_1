@@ -213,3 +213,32 @@ func TestEncodeByteSlice_4(t *testing.T) {
 		}
 	}
 }
+
+func TestAppendEncodings_1(t *testing.T) {
+	slice1 := make([]byte, 4)
+	slice2 := make([]byte, 8)
+
+	for i := 0; i < 8; i++ {
+		if i < 4 {
+			slice1[i] = byte(i)
+		}
+		slice2[i] = byte(i+4)
+	}
+
+	expectedSlice := make([]byte, 12)
+	for i := 0; i < 12; i++ {
+		expectedSlice[i] = byte(i)
+	}
+
+	returnedSlice := appendEncodings(slice1, slice2)
+
+	if len(expectedSlice) != len(returnedSlice) {
+		t.Errorf("\nexpected size: %d, actual size: %d", len(expectedSlice), len(returnedSlice))
+	}
+
+	for i := 0; i < len(expectedSlice); i++ {
+		if expectedSlice[i] != returnedSlice[i] {
+			t.Errorf("Index %d mismatch. %d != %d.", i, expectedSlice[i], returnedSlice[i])
+		}
+	}
+}

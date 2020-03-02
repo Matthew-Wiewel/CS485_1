@@ -62,15 +62,19 @@ func encodeByte(b byte) []byte {
 
 //helper function for encoding uint64s
 func encodeUint64(u uint64) []byte {
-	buffer := make([]byte, 8) //uint64 has 8 bytes, hence a byte slice of size 8
+	buffer := make([]byte, 8)             //uint64 has 8 bytes, hence a byte slice of size 8
 	binary.BigEndian.PutUint64(buffer, u) //write u as bytes
 	return buffer
 }
 
 //helper function for encoding byte slices
 func encodeByteSlice(s []byte) []byte {
-	//buffer := make([]byte, len(s))
-	buffer := s
+	//encode both the length and contents of the slice
+	//this way we have both the slice and methods decoding byte slices
+	//that contains byte slices in them can know how to split the slice
+	var length uint64 = uint64(len(s))
+	slice := s
+	buffer := appendEncodings(encodeUint64(length), slice)
 	return buffer
 }
 
@@ -95,13 +99,31 @@ func decodeUint64(slice []byte) (u uint64) {
 
 //helper function to decode a byte slice from a byte slice
 func decodeByteSlice(slice []byte) (s []byte) {
-	s = slice //TODO: check if this gets intended result
+	s = slice[8:] //when decoding, we only need to get the portion beyond the length
 	return s
 }
 
 //helper to append a slice to another
 //TODO: make variadic
-func appendEncodings(oldBuffer, sliceToAppend []byte) (newBuffer []byte) {
-	//TODO
+func appendEncodings(slices ...[]byte) []byte {
+
+	//get length for the buffer to return, using the length of all the
+	//slices to be appended
+	var lengthNewBuffer int
+	for _, slice := range slices {
+		lengthNewBuffer += len(slice)
+	}
+
+	//create the new buffer and now copy all the elements into it
+	var newBuffer []byte = make([]byte, lengthNewBuffer)
+
+	i := 0                         //hold index for newBuffer as the elements are coping
+	for _, slice := range slices { //copying the slices to be appended
+		for _, b := range slice {
+			newBuffer[i] = b
+			i++
+		}
+	}
+
 	return newBuffer
 }
