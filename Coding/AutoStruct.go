@@ -10,4 +10,5 @@ type AutoStruct interface {
 	Encode() []byte
 	Decode([]byte)
 	getTypeId() TypeId
+	ToString() string
 }
