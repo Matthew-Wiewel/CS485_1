@@ -2,6 +2,8 @@ package coding
 
 import (
 	"encoding/binary"
+	"io/ioutil"
+	"os"
 )
 
 //typeMap is a private package member used to correlate typeIds
@@ -15,15 +17,32 @@ func SetType(id TypeId, f func() AutoStruct) {
 
 //Read is a function to read in a byte stream and create the appropriate AutoStruct
 //TODO: see if erro os.Error will work on the linux
-func Read(path string) (t AutoStruct, err error) {
-	//TODO
-	return t, err
+func Read(path string) (AutoStruct, error) {
+	//open path
+	file, err := os.Open(path)
+	defer file.Close()
+
+	//if there are issues, exit the method
+	if err != nil {
+		return nil, err
+	}
+
+	//read contents
+	var dataSlice []byte
+
+	//decode the struct
+	typeOfStruct := decodeTypeId(dataSlice[:4])
+	decodedStruct := typeFactory(typeOfStruct)
+	decodedStruct.Decode(dataSlice[:len(dataSlice)])
+
+	return decodedStruct, err
 }
 
 //Write is a function to take an AutoStruct and write it to a byte steam
 //TODO: see if erro os.Error will work on the linux
-func Write(path string, t AutoStruct) (err error) {
-	//TODO
+func Write(path string, t AutoStruct) (error) {
+	encodedData := t.Encode()
+	err := ioutil.WriteFile(path, encodedData, 0644)
 	return err
 }
 
